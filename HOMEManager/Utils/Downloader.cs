@@ -21,9 +21,16 @@
             if (Uri.TryCreate(Api, path, out var uri))
             {
                 Console.WriteLine($"Downloading {Path.GetFileName(uri.AbsolutePath)}...");
-                var temp = await client.GetStreamAsync(uri);
-                temp.CopyTo(data);
-                data.Position = 0;
+                try
+                {
+                    var temp = await client.GetStreamAsync(uri);
+                    temp.CopyTo(data);
+                    data.Position = 0;
+                }
+                catch(Exception)
+                {
+                    Console.WriteLine($"Error while downloading {Path.GetFileName(uri.LocalPath)}");
+                }
             }
             return data;
         }
