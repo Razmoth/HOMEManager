@@ -14,7 +14,7 @@ namespace HOMEManager
         public static byte[] Decrypt(byte[] data)
         {
             var block = new byte[PaddedSize];
-            Buffer.BlockCopy(data, 0, block, 0, Size);
+            Buffer.BlockCopy(data, 0, block, 0, PaddedSize);
 
             block = DecryptData(block, Key, IV, BlockSize.Block256, KeySize.Key256, EncryptionMode.ModeCBC);
 
