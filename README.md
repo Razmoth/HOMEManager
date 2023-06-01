@@ -8,7 +8,8 @@ HOMEManager v1.0.0
 ------------------------
 
 Usage:
-  HOMEManager <md_file_path> or (download)
+  HOMEManager <mode> (MDVR if ABA mode)
+  Available Modes: [None,ABA,Mitake,All]
 
 1- Make sure to have internet connection.
 2- Run executable.
