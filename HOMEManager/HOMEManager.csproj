@@ -11,4 +11,13 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Reference Include="AssetStudio">
+			<HintPath>Libs\AssetStudio.dll</HintPath>
+		</Reference>
+		<Reference Include="K4os.Compression.LZ4">
+			<HintPath>Libs\K4os.Compression.LZ4.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
 </Project>

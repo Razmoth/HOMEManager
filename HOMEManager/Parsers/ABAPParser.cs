@@ -4,9 +4,10 @@
     {
         private const string Signature = "ppir";
 
-        public static void Parse(Stream stream, string bundleName)
+        public static void Parse(byte[] data, string bundleName)
         {
-            using var reader = new BinaryReader(stream);
+            using var ms = new MemoryStream(data);
+            using var reader = new BinaryReader(ms);
             var signature = reader.ReadStringToNull(4);
             if (signature != Signature)
                 throw new Exception("Invalid Signature !!");
@@ -24,7 +25,7 @@
             {
                 var entry = ABAPEntry.Parse(reader, header, info);
                 Console.WriteLine($"Found {entry.Name} in {bundleName} !!");
-                entry.Data = DecryptUtils.Decrypt(entry.Data);
+                entry.Data = Decryptor.ABA.Decrypt(entry.Data);
                 File.WriteAllBytes(Utils.GetFilePath(bundleName, entry.Name), entry.Data);
             }
         }

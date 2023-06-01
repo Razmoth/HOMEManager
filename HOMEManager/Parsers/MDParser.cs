@@ -2,10 +2,10 @@
 {
     public static class MDParser<T> where T : IParse<T>
     {
-        public static T[] Read(byte[] bytes) => Read(new MemoryStream(bytes));
-        public static T[] Read(Stream stream)
+        public static T[] Read(byte[] bytes)
         {
-            using var reader = new BinaryReader(stream);
+            using var ms = new MemoryStream(bytes);
+            using var reader = new BinaryReader(ms);
             reader.ReadInt32();
             var count = reader.ReadInt32();
             reader.ReadInt32();

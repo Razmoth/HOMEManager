@@ -1,31 +1,31 @@
 ﻿namespace HOMEManager
 {
-    public static class DLLManager
+    public class DLLManager
     {
-        private const string API = "https://resource.pokemon-home.com";
+        public const string ABAP_API = "https://resource.pokemon-home.com";
+        public const string Mitake_API = "https://d2gf339i9nrwgc.cloudfront.net";
         
-        private readonly static Uri Api = new(API);
-        private readonly static HttpClient client;
-        static DLLManager()
+        private readonly Uri Api;
+        private readonly HttpClient Client;
+        public DLLManager(string url)
         {
-            client = new HttpClient
+            Api = new Uri(url);
+            Client = new HttpClient
             {
                 BaseAddress = Api
             };
-            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; MSIE 6.0; Windows 98; Trident/5.1)");
+            Client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; MSIE 6.0; Windows 98; Trident/5.1)");
         }
 
-        public static async Task<Stream> DownloadFile(string path)
+        public async Task<byte[]> DownloadFile(string path)
         {
-            MemoryStream data = new();
+            byte[] data = Array.Empty<byte>();
             if (Uri.TryCreate(Api, path, out var uri))
             {
                 Console.WriteLine($"Downloading {Path.GetFileName(uri.AbsolutePath)}...");
                 try
                 {
-                    var temp = await client.GetStreamAsync(uri);
-                    temp.CopyTo(data);
-                    data.Position = 0;
+                    data = await Client.GetByteArrayAsync(uri);
                 }
                 catch(Exception)
                 {
@@ -34,5 +34,14 @@
             }
             return data;
         }
+    }
+
+    [Flags]
+    public enum DownloadMode
+    {
+        None,
+        ABA,
+        Mitake,
+        All = ABA | Mitake
     }
 }
